@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laurea di Alisea in Cybersecurity</title>
+    <!-- Caricamento di Tailwind CSS per lo styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Caricamento dei font Google: Inter, Playfair Display e JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
+    <!-- Caricamento delle icone FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Libreria Canvas Confetti per l'effetto celebrativo -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-emerald-950 text-slate-800 flex flex-col items-center justify-center p-4 sm:p-6 md:p-10 relative overflow-x-hidden font-['Inter']">
+
+    <!-- Griglia tecnologica di sfondo -->
+    <div class="fixed inset-0 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:28px_28px] opacity-15 pointer-events-none"></div>
+    <div class="fixed top-0 left-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="fixed bottom-0 right-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <!-- Contenitore Principale -->
+    <main class="w-full max-w-2xl z-10 flex flex-col items-center">
+
+        <!-- Stato 1: Busta Chiusa Interattiva -->
+        <div id="envelope-wrapper" class="w-full max-w-lg transition-all duration-700 ease-in-out transform">
+            <div class="bg-slate-900/90 backdrop-blur-md border border-emerald-500/30 rounded-3xl p-6 sm:p-10 shadow-2xl shadow-emerald-950/80 text-center relative overflow-hidden">
+                
+                <!-- Dettagli decorativi agli angoli della busta -->
+                <div class="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-emerald-500/40 rounded-tl-3xl pointer-events-none"></div>
+                <div class="absolute top-0 right-0 w-16 h-16 border-t-2 border-r-2 border-emerald-500/40 rounded-tr-3xl pointer-events-none"></div>
+                <div class="absolute bottom-0 left-0 w-16 h-16 border-b-2 border-l-2 border-emerald-500/40 rounded-bl-3xl pointer-events-none"></div>
+                <div class="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-emerald-500/40 rounded-br-3xl pointer-events-none"></div>
+
+                <!-- Badge crittografato -->
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-['JetBrains_Mono'] mb-6">
+                    <i class="fa-solid fa-lock text-xs"></i>
+                    <span>MESSAGGIO_CIFRATO // AES-256</span>
+                </div>
+
+                <!-- Icona Busta & Tocco -->
+                <div class="relative w-24 h-24 mx-auto mb-6 flex items-center justify-center rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 shadow-lg shadow-emerald-500/30 text-white">
+                    <i class="fa-solid fa-envelope-open-text text-4xl"></i>
+                    <span class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-amber-400 text-slate-950 flex items-center justify-center shadow-md">
+                        <i class="fa-solid fa-graduation-cap text-sm"></i>
+                    </span>
+                </div>
+
+                <h2 class="text-white font-['Playfair_Display'] text-2xl sm:text-3xl font-bold mb-2">
+                    Invito Riservato
+                </h2>
+                <p class="text-slate-400 text-sm sm:text-base mb-8 font-['JetBrains_Mono']">
+                    Destinatario: <span class="text-emerald-400">Ospite Speciale</span>
+                </p>
+
+                <!-- Bottone con sigillo di ceralacca / decrittazione -->
+                <button id="open-letter-btn" onclick="openLetter()" class="group relative inline-flex items-center justify-center gap-3 px-8 py-4 w-full sm:w-auto rounded-2xl bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 text-slate-950 font-semibold text-base sm:text-lg shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer">
+                    <i class="fa-solid fa-key transition-transform duration-300 group-hover:rotate-45"></i>
+                    <span>Apri la Lettera</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Stato 2: Lettera Aperta (nascosta inizialmente) -->
+        <article id="letter-card" class="hidden opacity-0 translate-y-8 transition-all duration-700 ease-out w-full bg-[#fdfbf7] rounded-3xl shadow-2xl shadow-black/60 border border-amber-200/80 overflow-hidden relative">
+            
+            <!-- Intestazione superiore della lettera con accenti oro e smeraldo -->
+            <div class="h-3 w-full bg-gradient-to-r from-emerald-700 via-teal-600 to-amber-500"></div>
+
+            <!-- Contenuto interno della lettera -->
+            <div class="p-6 sm:p-10 md:p-12 relative">
+                
+                <!-- Filigrana centrale discreta -->
+                <div class="absolute inset-0 flex items-center justify-center opacity-[0.035] pointer-events-none">
+                    <i class="fa-solid fa-shield-halved text-[16rem] text-emerald-950"></i>
+                </div>
+
+                <!-- Header della lettera: Data e Protocollo -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-6 mb-8 border-b border-slate-200/80">
+                    <div class="flex items-center gap-2 text-emerald-800 font-['JetBrains_Mono'] text-xs sm:text-sm font-medium">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span>STATUS: ACCESS_GRANTED</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-slate-500 font-['JetBrains_Mono'] text-xs">
+                        <i class="fa-solid fa-shield-cat text-amber-600"></i>
+                        <span>CERTIFICATO DI TRAGUARDO</span>
+                    </div>
+                </div>
+
+                <!-- Titolo Principale Richiesto -->
+                <header class="text-center mb-8 sm:mb-10">
+                    <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-700 mb-4 shadow-sm">
+                        <i class="fa-solid fa-graduation-cap text-2xl"></i>
+                    </div>
+                    
+                    <p class="uppercase tracking-[0.2em] text-xs sm:text-sm font-semibold text-amber-700 mb-2">
+                        Annuncio Ufficiale
+                    </p>
+                    
+                    <h1 class="font-['Playfair_Display'] text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 leading-tight">
+                        Laurea di <span class="text-emerald-800">Alisea</span><br>
+                        <span class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-700">in Cybersecurity</span>
+                    </h1>
+
+                    <!-- Divisore ornamentale -->
+                    <div class="flex items-center justify-center gap-3 mt-5">
+                        <span class="h-px w-12 bg-amber-400/70"></span>
+                        <i class="fa-solid fa-shield-halved text-amber-600 text-sm"></i>
+                        <span class="h-px w-12 bg-amber-400/70"></span>
+                    </div>
+                </header>
+
+                <!-- Corpo della lettera -->
+                <div class="space-y-5 text-slate-700 text-base sm:text-lg leading-relaxed relative z-10">
+                    <p class="font-medium text-slate-900">
+                        Carissimi familiari e amici,
+                    </p>
+                    <p>
+                        Dopo innumerevoli righe di codice, sfide crittografiche, notti di studio e sistemi messi in sicurezza, è finalmente arrivato il momento di celebrare uno dei traguardi più importanti del mio percorso.
+                    </p>
+                    <p>
+                        Con immensa gioia ed emozione, vi invito a festeggiare insieme a me la mia <strong class="font-semibold text-emerald-900">Laurea in Cybersecurity</strong>. Sarà un momento speciale per brindare al futuro e condividere questo successo con le persone che mi hanno sempre sostenuta.
+                    </p>
+                </div>
+
+                <!-- Riquadro Dettagli Evento -->
+                <div class="mt-8 p-5 sm:p-6 rounded-2xl bg-slate-100/80 border border-slate-200/90 grid grid-cols-1 sm:grid-cols-2 gap-4 relative z-10">
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0 mt-0.5">
+                            <i class="fa-regular fa-calendar-check"></i>
+                        </div>
+                        <div>
+                            <span class="block text-xs font-['JetBrains_Mono'] uppercase text-slate-500">Quando</span>
+                            <span class="font-semibold text-slate-900 text-sm sm:text-base">Data da definire</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center shrink-0 mt-0.5">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <div>
+                            <span class="block text-xs font-['JetBrains_Mono'] uppercase text-slate-500">Dove</span>
+                            <span class="font-semibold text-slate-900 text-sm sm:text-base">Aula Magna / Location Festa</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Firma e Sigillo Finale -->
+                <footer class="mt-10 pt-6 border-t border-slate-200/80 flex flex-col sm:flex-row items-center justify-between gap-6">
+                    <div class="text-center sm:text-left">
+                        <p class="text-sm text-slate-500 mb-1">Con affetto e gratitudine,</p>
+                        <p class="font-['Playfair_Display'] italic text-2xl sm:text-3xl font-bold text-slate-900">
+                            Alisea
+                        </p>
+                        <p class="font-['JetBrains_Mono'] text-xs text-emerald-700 mt-1">
+                            Dott.ssa in Cybersecurity
+                        </p>
+                    </div>
+
+                    <!-- Azioni interattive -->
+                    <div class="flex flex-wrap items-center justify-center gap-3">
+                        <button onclick="triggerCelebration()" class="px-4 py-2.5 rounded-xl bg-emerald-800 hover:bg-emerald-700 text-white text-sm font-medium shadow-md shadow-emerald-900/20 transition-all flex items-center gap-2 cursor-pointer">
+                            <i class="fa-solid fa-champagne-glasses text-amber-300"></i>
+                            <span>Festeggia!</span>
+                        </button>
+                        <button onclick="closeLetter()" class="px-4 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 text-sm font-medium transition-all flex items-center gap-2 cursor-pointer" title="Richiudi la busta">
+                            <i class="fa-solid fa-envelope"></i>
+                            <span>Chiudi</span>
+                        </button>
+                    </div>
+                </footer>
+
+            </div>
+        </article>
+
+    </main>
+
+    <!-- Script per gestire apertura lettera ed effetti coriandoli -->
+    <script>
+        /**
+         * Lancia una pioggia di coriandoli celebrativi nei colori oro e smeraldo
+         */
+        function triggerCelebration() {
+            try {
+                if (typeof confetti === 'function') {
+                    confetti({
+                        particleCount: 80,
+                        spread: 70,
+                        origin: { y: 0.6 },
+                        colors: ['#10b981', '#059669', '#f59e0b', '#fbbf24', '#ffffff']
+                    });
+                }
+            } catch (error) {
+                console.error("Errore durante l'animazione:", error);
+            }
+        }
+
+        /**
+         * Apre la busta e mostra la lettera con una transizione fluida
+         */
+        function openLetter() {
+            const envelope = document.getElementById('envelope-wrapper');
+            const letter = document.getElementById('letter-card');
+
+            // Nasconde la busta
+            envelope.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+            
+            setTimeout(() => {
+                envelope.classList.add('hidden');
+                letter.classList.remove('hidden');
+                
+                // Forza il reflow per attivare la transizione CSS
+                void letter.offsetWidth;
+                
+                letter.classList.remove('opacity-0', 'translate-y-8');
+                letter.classList.add('opacity-100', 'translate-y-0');
+                
+                // Avvia i coriandoli all'apertura
+                triggerCelebration();
+            }, 350);
+        }
+
+        /**
+         * Richiude la lettera e riporta alla vista della busta
+         */
+        function closeLetter() {
+            const envelope = document.getElementById('envelope-wrapper');
+            const letter = document.getElementById('letter-card');
+
+            letter.classList.remove('opacity-100', 'translate-y-0');
+            letter.classList.add('opacity-0', 'translate-y-8');
+
+            setTimeout(() => {
+                letter.classList.add('hidden');
+                envelope.classList.remove('hidden');
+                
+                void envelope.offsetWidth;
+                
+                envelope.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+            }, 350);
+        }
+    </script>
+</body>
+</html>
